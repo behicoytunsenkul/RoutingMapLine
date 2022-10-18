@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Harita Rota Uygulaması</title>
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css" />
+	<link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+
+
+
+	<style>
+		body {
+			margin: 0;
+			padding: 0;
+		}
+	</style>
+
+</head>
+
+<body>
+    <ul id="Coordinates"></ul>
+	<div id="map" style="width:100%; height: 100vh"></div>
+	<script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"></script>
+	<script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
+    <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+
+
+	<script>
+
+		var map = L.map('map').setView([37.876522, 32.480371], 11);
+		var mapLink = "<a href='http://openstreetmap.org'>OpenStreetMap</a>";//HARITA ICIN OPENSTREET KULLANILDI
+		L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', { attribution: 'Leaflet &copy; ' + mapLink + ', contribution', maxZoom: 25 }).addTo(map);
+
+		var Icon = L.icon({//BASLANGIC ROTASI ICIN DOT TANIMLAMASI
+			iconUrl: 'dot.png',
+			iconSize: [30, 30]
+		});
+
+		var marker = L.marker([37.876522, 32.480371],{ icon: Icon }).addTo(map);//BASLANGIC ROTASI
+        
+        
+        
+        
+        
+
+//DUZELTME: LEAFLET LIBRARY DE SADECE TIKLAMA ILE ROTA OLUSUMU DESTEKLENIYOR. OTOMATIK ROTA OLUSTURMA ICIN FONKSIYONLAR BAKILACAK--TIKLAMA ENGELLENDI ANCAK POP UP EKRAN SORUNU HALLEDILMEDI
+        
+       var arr=[
+				  L.latLng(37.876522, 32.480371),
+				  L.latLng(37.954054, 32.513779),
+				  L.latLng(37.763850, 32.387247), 
+				  L.latLng(38.104379, 32.562450)
+				];
+      
+
+
+    
+function testMap(){
+			//console.log(e)
+
+			L.Routing.control({//BASLANGIC DAHIL SON NOKTAYA KADAR ROTA CIZERD
+                
+				waypoints: arr,
+                lineOptions:{
+                styles:[
+                {
+                color: "green",
+                opacity: 0.6,
+                weight: 4
+            }
+                ]
+            },
+                addWayPoints: false,
+                draggableWayPoints: false,
+                fitSelectedRoutes: false,
+                showAlternatives: false,
+                
+
+                
+			}).on('routesfound', function (e) {
+				var routes = e.routes;
+				console.log(routes);
+                
+
+			}).addTo(map);
+       
+    
+}   setTimeout(testMap,500);
+
+
+     
+ 
+          let coordinates = 
+            [
+                 "37.876522, 32.480371 (1. DURAK)\n",
+				 "37.954054, 32.513779 (2. DURAK)\n",
+				 "37.763850, 32.387247 (3. DURAK)\n", 
+				 "38.104379, 32.562450 (4. DURAK)\n"
+				];
+
+
+        let list = document.getElementById("Coordinates");
+        coordinates.forEach((item)=>{
+            let lst = document.createElement("lst");
+            lst.innerText = item;
+            list.appendChild(lst);
+        });
+	</script>
+
+
+</body>
+
+</html>r
